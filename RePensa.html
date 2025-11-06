@@ -9,7 +9,7 @@
       font-family: 'Segoe UI', sans-serif;
       background-color: #f9f9f9;
       color: #2c3e50;
-      scroll-behavior: smooth; /* Rolagem suave */
+      scroll-behavior: smooth;
     }
     header {
       display: flex;
@@ -103,13 +103,14 @@
     <section id="inicio">
       <h2>Agende a coleta do seu eletrodoméstico</h2>
       <label>Localização:</label><br>
-      <input type="text" placeholder="Digite sua localização"><br>
+      <input id="local" type="text" placeholder="Digite sua localização"><br>
       <label>Data de Recolha:</label><br>
-      <input type="date"><br>
+      <input id="data" type="date"><br>
       <label>Eletrodoméstico:</label><br>
-      <input type="text" placeholder="Tipo de eletrodoméstico"><br>
-      <button>Agendar coleta</button>
+      <input id="eletro" type="text" placeholder="Tipo de eletrodoméstico"><br>
+      <button id="btn-agendar">Agendar coleta</button>
     </section>
+
     <!-- Serviços -->
     <section id="servicos">
       <h2>Serviços</h2>
@@ -120,6 +121,7 @@
         <li>Descarte responsável e reaproveitamento de materiais.</li>
       </ul>
     </section>
+
     <!-- Contato -->
     <section id="contato">
       <h2>Contato</h2>
@@ -129,6 +131,7 @@
       <textarea rows="4" placeholder="Digite sua mensagem"></textarea><br>
       <button>Enviar</button>
     </section>
+
     <!-- Login -->
     <section id="login">
       <h2>Login</h2>
@@ -138,6 +141,7 @@
       <p>Não tem uma conta? <a href="#">Cadastre-se</a></p>
     </section>
   </main>
+
   <script>
     // Destacar link ativo ao rolar
     const sections = document.querySelectorAll("section");
@@ -145,7 +149,7 @@
     window.addEventListener("scroll", () => {
       let current = "";
       sections.forEach(section => {
-        const sectionTop = section.offsetTop - 80; // margem para header
+        const sectionTop = section.offsetTop - 80;
         const sectionHeight = section.clientHeight;
         if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
           current = section.getAttribute("id");
@@ -158,7 +162,37 @@
         }
       });
     });
+
+    // Enviar dados de agendamento para o backend
+    document.getElementById("btn-agendar").addEventListener("click", async () => {
+      const dados = {
+        local: document.getElementById("local").value,
+        data: document.getElementById("data").value,
+        eletro: document.getElementById("eletro").value
+      };
+
+      if (!dados.local || !dados.data || !dados.eletro) {
+        alert("Preencha todos os campos antes de agendar!");
+        return;
+      }
+
+      try {
+        const resposta = await fetch("https://SEU-BACKEND-AQUI.com/api/agendamentos", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dados)
+        });
+
+        if (resposta.ok) {
+          alert("✅ Agendamento enviado com sucesso!");
+        } else {
+          alert("⚠️ Erro ao enviar. Verifique o servidor.");
+        }
+      } catch (erro) {
+        console.error(erro);
+        alert("❌ Não foi possível conectar ao servidor.");
+      }
+    });
   </script>
 </body>
 </html>
-

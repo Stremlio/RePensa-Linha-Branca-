@@ -1,15 +1,18 @@
 import express from "express";
+import multer from "multer";
+
 const app = express();
 app.use(express.json());
 
-// Rota simples GET
-app.get("/", (req, res) => {
-  res.send("Servidor Railway funcionando!");
-});
+// Configuração do upload
+const upload = multer({ dest: "uploads/" });
 
-// Rota exemplo com JSON
-app.get("/dados", (req, res) => {
-  res.json({ produto: "Exemplo", preco: 123 });
+// Endpoint que recebe o agendamento
+app.post("/agendamento", upload.single("arquivo"), (req, res) => {
+  console.log("Arquivo recebido:", req.file);
+  console.log("Dados do formulário:", req.body);
+
+  res.json({ sucesso: true, mensagem: "Agendamento enviado!" });
 });
 
 app.listen(process.env.PORT || 3000, () =>

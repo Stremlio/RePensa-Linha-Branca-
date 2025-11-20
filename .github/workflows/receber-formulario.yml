@@ -1,0 +1,16 @@
+name: Receber Formulário
+
+on:
+  repository_dispatch:
+    types: [novo-agendamento]
+
+jobs:
+  criar_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Criar Issue no GitHub
+        uses: peter-evans/create-issue-from-file@v4
+        with:
+          title: "Novo agendamento de coleta"
+          content-filepath: issue.txt
+          token: ${{ secrets.GH_TOKEN }}

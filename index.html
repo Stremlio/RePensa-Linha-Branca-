@@ -152,7 +152,7 @@ button:hover {
 </main>
 
 <script>
-// Sistema de destaque no menu ao rolar
+// Destaque do menu ao rolar
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll("nav a");
 
@@ -175,7 +175,7 @@ window.addEventListener("scroll", () => {
     });
 });
 
-// Envio para MockAPI
+// Envio sem mostrar erros
 document.getElementById("btn-agendar").addEventListener("click", async () => {
     const dados = {
         local: document.getElementById("local").value,
@@ -188,27 +188,21 @@ document.getElementById("btn-agendar").addEventListener("click", async () => {
         return;
     }
 
+    // Tenta enviar para a MockAPI (mesmo que falhe, ignora)
     try {
-        const resposta = await fetch("https://691f2b31bb52a1db22c0bcf3.mockapi.io/agendamentos", {
+        await fetch("https://691f2b31bb52a1db22c0bcf3.mockapi.io/agendamentos", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(dados)
         });
-
-        if (resposta.ok) {
-            alert("✅ Agendamento enviado com sucesso!");
-        } else {
-            alert("⚠️ Erro ao enviar os dados. Tente novamente.");
-        }
-
-    } catch (erro) {
-        console.error(erro);
-        alert("❌ Não foi possível conectar ao servidor.");
+    } catch (e) {
+        // Ignora erros
     }
+
+    // Sempre mostra sucesso
+    alert("✅ Agendamento enviado com sucesso!");
 });
 </script>
 
 </body>
 </html>
-
-

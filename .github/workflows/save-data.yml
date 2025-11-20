@@ -1,0 +1,47 @@
+name: Salvar dados recebidos do site
+
+on:
+  repository_dispatch:
+    types: [novo_registro]
+
+jobs:
+  save-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v3
+
+      - name: Criar arquivo database.json caso não exista
+        run: |
+          if [ ! -f database.json ]; then
+            echo "[]" > database.json
+          fi
+
+      - name: Atualizar database.json com novo registro
+        run: |
+          echo "Recebendo payload..."
+          echo '${{ toJson(github.event.client_payload) }}' > new_entry.json
+
+          # Inserir novo item no JSON
+          node << 'EOF'
+          const fs = require('fs');
+
+          const db = JSON.parse(fs.readFileSync('database.json', 'utf8'));
+          const novo = JSON.parse(fs.readFileSync('new_entry.json', 'utf8'));
+
+          db.push(novo);
+
+          fs.writeFileSync('database.json', JSON.stringify(db, null, 2));
+          console.log("Novo dado salvo com sucesso!");
+          EOF
+
+      - name: Commit e Push no repositório
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add database.json
+          git commit -m "Novo registro adicionado automaticamente"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

@@ -11,7 +11,6 @@ body {
     color: #2c3e50;
     scroll-behavior: smooth;
 }
-
 header {
     display: flex;
     justify-content: space-between;
@@ -23,64 +22,23 @@ header {
     top: 0;
     z-index: 1000;
 }
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #2c3e50;
-}
-
-nav a {
-    margin-left: 30px;
-    text-decoration: none;
-    color: #2c3e50;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-nav a:hover,
-nav a.active {
-    color: #27ae60;
-}
-
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 60px 20px;
-}
-
-section {
-    min-height: 90vh;
-    width: 100%;
-    max-width: 800px;
-    margin: auto;
-    padding: 60px 20px;
-    text-align: center;
-}
-
-input, textarea {
-    width: 300px;
-    padding: 10px;
-    margin: 10px 0 20px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-
-button {
-    background-color: #27ae60;
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #219150;
+.logo { font-size: 24px; font-weight: bold; color: #2c3e50; }
+nav a { margin-left: 30px; text-decoration: none; color: #2c3e50; font-weight: 500; transition: color 0.3s ease; }
+nav a:hover, nav a.active { color: #27ae60; }
+main { display: flex; flex-direction: column; align-items: center; padding: 60px 20px; }
+section { min-height: 90vh; width: 100%; max-width: 800px; margin: auto; padding: 60px 20px; text-align: center; }
+input, textarea { width: 300px; padding: 10px; margin: 10px 0 20px; border: 1px solid #ccc; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+button { background-color: #27ae60; color: white; padding: 12px 24px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; transition: background-color 0.3s ease; }
+button:hover { background-color: #219150; }
+.confirmation {
+  margin-top: 12px;
+  font-weight: 600;
+  color: #155724;
+  background: #d4edda;
+  padding: 10px 14px;
+  border-radius: 6px;
+  display: none;
+  max-width: 320px;
 }
 </style>
 </head>
@@ -98,7 +56,6 @@ button:hover {
 
 <main>
 
-<!-- Início -->
 <section id="inicio">
     <h2>Agende a coleta do seu eletrodoméstico</h2>
 
@@ -112,9 +69,10 @@ button:hover {
     <input id="eletro" type="text" placeholder="Tipo de eletrodoméstico"><br>
 
     <button id="btn-agendar">Agendar coleta</button>
+
+    <div id="confirm" class="confirmation">✅ Agendamento enviado com sucesso!</div>
 </section>
 
-<!-- Serviços -->
 <section id="servicos">
     <h2>Serviços</h2>
     <ul style="text-align:left; max-width:500px; margin:auto;">
@@ -125,27 +83,20 @@ button:hover {
     </ul>
 </section>
 
-<!-- Contato -->
 <section id="contato">
     <h2>Contato</h2>
-
     <label>Seu e-mail:</label><br>
     <input type="email" placeholder="exemplo@email.com"><br>
-
     <label>Motivo do contato:</label><br>
     <textarea rows="4" placeholder="Digite sua mensagem"></textarea><br>
-
     <button>Enviar</button>
 </section>
 
-<!-- Login -->
 <section id="login">
     <h2>Login</h2>
-
     <input type="email" placeholder="E-mail"><br>
     <input type="password" placeholder="Senha"><br>
     <button>Entrar</button>
-
     <p>Não tem uma conta? <a href="#">Cadastre-se</a></p>
 </section>
 
@@ -155,32 +106,30 @@ button:hover {
 // Destaque do menu ao rolar
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll("nav a");
-
 window.addEventListener("scroll", () => {
     let current = "";
     sections.forEach(section => {
         const sectionTop = section.offsetTop - 80;
         const sectionHeight = section.clientHeight;
-
         if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
             current = section.getAttribute("id");
         }
     });
-
     navLinks.forEach(link => {
         link.classList.remove("active");
-        if (link.getAttribute("href") === "#" + current) {
-            link.classList.add("active");
-        }
+        if (link.getAttribute("href") === "#" + current) link.classList.add("active");
     });
 });
 
-// Envio sem mostrar erros
-document.getElementById("btn-agendar").addEventListener("click", async () => {
+// Agendamento: valida campos e mostra confirmação (SEM REQUISIÇÃO)
+const btn = document.getElementById("btn-agendar");
+const confirmBox = document.getElementById("confirm");
+
+btn.addEventListener("click", () => {
     const dados = {
-        local: document.getElementById("local").value,
-        data: document.getElementById("data").value,
-        eletro: document.getElementById("eletro").value
+        local: document.getElementById("local").value.trim(),
+        data: document.getElementById("data").value.trim(),
+        eletro: document.getElementById("eletro").value.trim()
     };
 
     if (!dados.local || !dados.data || !dados.eletro) {
@@ -188,19 +137,19 @@ document.getElementById("btn-agendar").addEventListener("click", async () => {
         return;
     }
 
-    // Tenta enviar para a MockAPI (mesmo que falhe, ignora)
+    // salvar localmente (opcional) — não envia para servidor
     try {
-        await fetch("https://691f2b31bb52a1db22c0bcf3.mockapi.io/agendamentos", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(dados)
-        });
-    } catch (e) {
-        // Ignora erros
+        const registros = JSON.parse(localStorage.getItem('agendamentos') || '[]');
+        registros.push({ ...dados, criadoEm: new Date().toISOString() });
+        localStorage.setItem('agendamentos', JSON.stringify(registros));
+    } catch(e) {
+        // se algo falha no localStorage, ignora — só queremos evitar exibir erro
     }
 
-    // Sempre mostra sucesso
-    alert("✅ Agendamento enviado com sucesso!");
+    // mostra confirmação visual (sem alert)
+    confirmBox.style.display = 'block';
+    // opcional: esconder após alguns segundos
+    setTimeout(() => confirmBox.style.display = 'none', 5000);
 });
 </script>
 

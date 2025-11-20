@@ -1,0 +1,22 @@
+name: Receber Formulário
+
+on:
+  repository_dispatch:
+    types: [novo-agendamento]
+
+jobs:
+  criar_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Criar arquivo com dados recebidos
+        run: |
+          echo "**Localização:** ${{ github.event.client_payload.localizacao }}" > issue.txt
+          echo "**Data:** ${{ github.event.client_payload.data }}" >> issue.txt
+          echo "**Eletrodoméstico:** ${{ github.event.client_payload.eletro }}" >> issue.txt
+
+      - name: Criar Issue no GitHub
+        uses: peter-evans/create-issue-from-file@v4
+        with:
+          title: "Novo agendamento de coleta"
+          content-filepath: issue.txt
+          token: ${{ secrets.GH_TOKEN }}

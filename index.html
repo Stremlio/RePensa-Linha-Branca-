@@ -1,199 +1,213 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8">
-  <title>RePensa Linha Branca</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f9f9f9;
-      color: #2c3e50;
-      scroll-behavior: smooth;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #ffffff;
-      padding: 20px 40px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: #2c3e50;
-    }
-    nav a {
-      margin-left: 30px;
-      text-decoration: none;
-      color: #2c3e50;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-    nav a:hover,
-    nav a.active {
-      color: #27ae60;
-    }
-    main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 60px 20px;
-    }
-    section {
-      min-height: 90vh;
-      width: 100%;
-      max-width: 800px;
-      margin: auto;
-      padding: 60px 20px;
-      text-align: center;
-    }
-    input, textarea {
-      width: 300px;
-      padding: 10px;
-      margin: 10px 0 20px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-      transition: border-color 0.3s ease;
-    }
-    input:focus, textarea:focus {
-      border-color: #27ae60;
-      outline: none;
-    }
-    button {
-      background-color: #27ae60;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #219150;
-    }
-    ul {
-      text-align: left;
-      max-width: 500px;
-      margin: 20px auto;
-    }
-    ul li {
-      margin-bottom: 10px;
-    }
-  </style>
+<meta charset="utf-8">
+<title>RePensa Linha Branca</title>
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9f9;
+    color: #2c3e50;
+    scroll-behavior: smooth;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px 40px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+nav a {
+    margin-left: 30px;
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+nav a:hover,
+nav a.active {
+    color: #27ae60;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px;
+}
+
+section {
+    min-height: 90vh;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+input, textarea {
+    width: 300px;
+    padding: 10px;
+    margin: 10px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+button {
+    background-color: #27ae60;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #219150;
+}
+</style>
 </head>
 <body>
-  <header>
+
+<header>
     <div class="logo">RePensa Linha Branca</div>
     <nav>
-      <a href="#inicio" class="active">Início</a>
-      <a href="#servicos">Serviços</a>
-      <a href="#contato">Contato</a>
-      <a href="#login">Login</a>
+        <a href="#inicio" class="active">Início</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#contato">Contato</a>
+        <a href="#login">Login</a>
     </nav>
-  </header>
-  <main>
-    <!-- Início -->
-    <section id="inicio">
-      <h2>Agende a coleta do seu eletrodoméstico</h2>
-      <label>Localização:</label><br>
-      <input id="local" type="text" placeholder="Digite sua localização"><br>
-      <label>Data de Recolha:</label><br>
-      <input id="data" type="date"><br>
-      <label>Eletrodoméstico:</label><br>
-      <input id="eletro" type="text" placeholder="Tipo de eletrodoméstico"><br>
-      <button id="btn-agendar">Agendar coleta</button>
-    </section>
+</header>
 
-    <!-- Serviços -->
-    <section id="servicos">
-      <h2>Serviços</h2>
-      <ul>
+<main>
+
+<!-- Início -->
+<section id="inicio">
+    <h2>Agende a coleta do seu eletrodoméstico</h2>
+
+    <label>Localização:</label><br>
+    <input id="local" type="text" placeholder="Digite sua localização"><br>
+
+    <label>Data de Recolha:</label><br>
+    <input id="data" type="date"><br>
+
+    <label>Eletrodoméstico:</label><br>
+    <input id="eletro" type="text" placeholder="Tipo de eletrodoméstico"><br>
+
+    <button id="btn-agendar">Agendar coleta</button>
+</section>
+
+<!-- Serviços -->
+<section id="servicos">
+    <h2>Serviços</h2>
+    <ul style="text-align:left; max-width:500px; margin:auto;">
         <li>Reciclagem de eletrodomésticos feita de forma prática e segura.</li>
-        <li>Facilidade para o cliente com agendamento online de coleta.</li>
+        <li>Agendamento de coleta totalmente online.</li>
         <li>Contribuição direta para a preservação do meio ambiente.</li>
-        <li>Descarte responsável e reaproveitamento de materiais.</li>
-      </ul>
-    </section>
+        <li>Descarte responsável e reaproveitamento dos materiais.</li>
+    </ul>
+</section>
 
-    <!-- Contato -->
-    <section id="contato">
-      <h2>Contato</h2>
-      <label>Seu e-mail:</label><br>
-      <input type="email" placeholder="exemplo@email.com"><br>
-      <label>Motivo do contato:</label><br>
-      <textarea rows="4" placeholder="Digite sua mensagem"></textarea><br>
-      <button>Enviar</button>
-    </section>
+<!-- Contato -->
+<section id="contato">
+    <h2>Contato</h2>
 
-    <!-- Login -->
-    <section id="login">
-      <h2>Login</h2>
-      <input type="email" placeholder="E-mail"><br>
-      <input type="password" placeholder="Senha"><br>
-      <button>Entrar</button>
-      <p>Não tem uma conta? <a href="#">Cadastre-se</a></p>
-    </section>
-  </main>
+    <label>Seu e-mail:</label><br>
+    <input type="email" placeholder="exemplo@email.com"><br>
 
-  <script>
-    // Destacar link ativo ao rolar
-    const sections = document.querySelectorAll("section");
-    const navLinks = document.querySelectorAll("nav a");
-    window.addEventListener("scroll", () => {
-      let current = "";
-      sections.forEach(section => {
+    <label>Motivo do contato:</label><br>
+    <textarea rows="4" placeholder="Digite sua mensagem"></textarea><br>
+
+    <button>Enviar</button>
+</section>
+
+<!-- Login -->
+<section id="login">
+    <h2>Login</h2>
+
+    <input type="email" placeholder="E-mail"><br>
+    <input type="password" placeholder="Senha"><br>
+    <button>Entrar</button>
+
+    <p>Não tem uma conta? <a href="#">Cadastre-se</a></p>
+</section>
+
+</main>
+
+<script>
+// Sistema de destaque no menu ao rolar
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll("nav a");
+
+window.addEventListener("scroll", () => {
+    let current = "";
+    sections.forEach(section => {
         const sectionTop = section.offsetTop - 80;
         const sectionHeight = section.clientHeight;
+
         if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
-          current = section.getAttribute("id");
+            current = section.getAttribute("id");
         }
-      });
-      navLinks.forEach(link => {
-        link.classList.remove("active");
-        if (link.getAttribute("href") === "#" + current) {
-          link.classList.add("active");
-        }
-      });
     });
 
-    // Enviar dados de agendamento para o backend
-    document.getElementById("btn-agendar").addEventListener("click", async () => {
-      const dados = {
+    navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#" + current) {
+            link.classList.add("active");
+        }
+    });
+});
+
+// Envio para MockAPI
+document.getElementById("btn-agendar").addEventListener("click", async () => {
+    const dados = {
         local: document.getElementById("local").value,
         data: document.getElementById("data").value,
         eletro: document.getElementById("eletro").value
-      };
+    };
 
-      if (!dados.local || !dados.data || !dados.eletro) {
+    if (!dados.local || !dados.data || !dados.eletro) {
         alert("Preencha todos os campos antes de agendar!");
         return;
-      }
+    }
 
-      try {
+    try {
         const resposta = await fetch("https://691f2b31bb52a1db22c0bcf3.mockapi.io/agendamentos", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dados)
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dados)
         });
 
         if (resposta.ok) {
-          alert("✅ Agendamento enviado com sucesso!");
+            alert("✅ Agendamento enviado com sucesso!");
         } else {
-          alert("⚠️ Erro ao enviar. Verifique o servidor.");
+            alert("⚠️ Erro ao enviar os dados. Tente novamente.");
         }
-      } catch (erro) {
+
+    } catch (erro) {
         console.error(erro);
         alert("❌ Não foi possível conectar ao servidor.");
-      }
-    });
-  </script>
+    }
+});
+</script>
+
 </body>
 </html>
 

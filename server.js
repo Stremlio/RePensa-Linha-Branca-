@@ -1,20 +1,44 @@
 // server.js
-import express from "express";
-import cors from "cors";
+const express = require("express");
+const fetch = require("node-fetch"); // ou built-in fetch se Node >= 18
+const cors = require("cors");
+require("dotenv").config(); // se você quiser colocar o GH_TOKEN em .env
 
 const app = express();
-app.use(cors());
+app.use(cors()); // permite requisições do navegador
 app.use(express.json());
 
-let agendamentos = []; // exemplo em memória
+// Endpoint para receber agendamento do front-end
+app.post("/novo_agendamento", async (req, res) => {
+  try {
+    const payload = req.body;
 
-app.post("/api/agendamentos", (req, res) => {
-  const { local, data, eletro } = req.body;
-  if (!local || !data || !eletro) return res.status(400).json({ erro: "Campos obrigatórios" });
+    // Dispara o workflow no GitHub
+    const response = await fetch("https://api.github.com/repos/Stremlio/RePensa-Linha-Branca-/dispatches", {
+      method: "POST",
+      headers: {
+        "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.GH_TOKEN || "GH_TOKEN"}`
+      },
+      body: JSON.stringify({
+        event_type: "novo_registro",
+        client_payload: payload
+      })
+    });
 
-  agendamentos.push({ local, data, eletro, criadoEm: new Date() });
-  console.log(agendamentos);
-  res.status(201).json({ mensagem: "Agendamento recebido!" });
+    if (!response.ok) {
+      const text = await response.text();
+      return res.status(500).json({ success: false, error: text });
+    }
+
+    res.json({ success: true, message: "Agendamento enviado para GitHub com sucesso!" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
-app.listen(3000, () => console.log("Servidor rodando em http://localhost:3000"));
+// Inicializa servidor
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));

@@ -1,11 +1,18 @@
-// server.js
-const express = require("express");
+import express from "express";
 const app = express();
 app.use(express.json());
 
-app.post("/api/agendamentos", (req, res) => {
-  console.log("Agendamento recebido:", req.body);
-  res.json({ message: "Agendamento OK!" });
+// Rota simples GET
+app.get("/", (req, res) => {
+  res.send("Servidor Railway funcionando!");
 });
 
-app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
+// Rota exemplo com JSON
+app.get("/dados", (req, res) => {
+  res.json({ produto: "Exemplo", preco: 123 });
+});
+
+app.listen(process.env.PORT || 3000, () =>
+  console.log("Servidor ligado!")
+);
+
